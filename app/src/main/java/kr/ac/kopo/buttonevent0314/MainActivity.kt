@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.view.View
 import android.widget.Button
 import android.widget.Toast
 
@@ -14,6 +15,7 @@ class MainActivity : AppCompatActivity() {
     lateinit var btn911 : Button
     lateinit var btnGallery : Button
     lateinit var btnFinish : Button
+    lateinit var btnListener : View.OnClickListener
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,28 +27,24 @@ class MainActivity : AppCompatActivity() {
         btnGallery = findViewById(R.id.buttonGallery)
         btnFinish = findViewById(R.id.buttonFinish)
 
+        btnListener= View.OnClickListener {
+            when(it.id){
+                R.id.buttonHome ->  intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://p.kopo.ac.kr/p/10002/"))
+                R.id.button911 -> Intent(Intent.ACTION_VIEW, Uri.parse("tel:/911"))
+                R.id.buttonGallery -> Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"))
+            }
+            startActivity(intent)
+        }
+        btnHome.setOnClickListener(btnListener)
+        btn911.setOnClickListener(btnListener)
+        btnGallery.setOnClickListener(btnListener)
+
         btn.setOnClickListener {
             Toast.makeText(applicationContext, "기분 좋은 오후입니다.", Toast.LENGTH_SHORT).show()
-        }
-
-        btnHome.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://p.kopo.ac.kr/p/10002/"))
-            startActivity(intent)
-        }
-
-        btn911.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("tel:/911"))
-            startActivity(intent)
-        }
-
-        btnGallery.setOnClickListener {
-            var intent = Intent(Intent.ACTION_VIEW, Uri.parse("content://media/internal/images/media"))
-            startActivity(intent)
         }
 
         btnFinish.setOnClickListener {
             finish()
         }
-
     }
 }
